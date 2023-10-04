@@ -100,10 +100,16 @@ const VoiceRSS = {
         throw 'The browser does not support HTTP request';
     },
 };
-/* function test() {
+// Disable/Enable Button
+function toggleButton() {
+    button.disabled = !button.disabled;
+}
+// Passing Joke to VoiceRSS API
+function tellMe(joke) {
+    console.log('tell me: ', joke);
     VoiceRSS.speech({
         key: 'e027af0cb78a4c66b52e34815304b130',
-        src: 'Hello, world!',
+        src: joke,
         hl: 'en-us',
         v: 'Linda',
         r: 0,
@@ -112,8 +118,6 @@ const VoiceRSS = {
         ssml: false,
     });
 }
-test(); */
-
 // Get Jokes from Joke API
 async function getJokes() {
     let joke = '';
@@ -123,9 +127,13 @@ async function getJokes() {
         const response = await fetch(apiURL);
         const data = await response.json();
         joke = data.setup ? `${data.setup} ... ${data.delivery}` : data.joke;
-        console.log(joke);
+        tellMe(joke);
+        toggleButton();
     } catch (error) {
         console.log('woops ', error);
     }
 }
-getJokes();
+
+// Event listeners
+button.addEventListener('click', getJokes);
+audioElement.addEventListener('ended', toggleButton);
