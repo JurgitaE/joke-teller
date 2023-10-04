@@ -100,7 +100,7 @@ const VoiceRSS = {
         throw 'The browser does not support HTTP request';
     },
 };
-function test() {
+/* function test() {
     VoiceRSS.speech({
         key: 'e027af0cb78a4c66b52e34815304b130',
         src: 'Hello, world!',
@@ -112,4 +112,20 @@ function test() {
         ssml: false,
     });
 }
-test();
+test(); */
+
+// Get Jokes from Joke API
+async function getJokes() {
+    let joke = '';
+    const apiURL =
+        'https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit';
+    try {
+        const response = await fetch(apiURL);
+        const data = await response.json();
+        joke = data.setup ? `${data.setup} ... ${data.delivery}` : data.joke;
+        console.log(joke);
+    } catch (error) {
+        console.log('woops ', error);
+    }
+}
+getJokes();
